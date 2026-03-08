@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur de Pseudo Ultra Réaliste</title>
+<style>
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #2b5876, #4e4376);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    background: #1f1f1f;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    width: 90%;
+    max-width: 450px;
+}
+
+h1 {
+    margin-bottom: 15px;
+    font-size: 2rem;
+}
+
+input, select, button {
+    width: 80%;
+    padding: 12px;
+    margin: 10px auto;
+    display: block;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+}
+
+input {
+    background: #2f2f2f;
+    color: white;
+}
+
+select {
+    background: #373737;
+    color: white;
+}
+
+button {
+    background: #4e4376;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover {
+    background: #2b5876;
+}
+
+.nickname {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 20px;
+    background: #292929;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.nickname.copied::after {
+    content: "🎉 Copié !";
+    display: block;
+    font-size: 14px;
+    color: #00FF00;
+    margin-top: 8px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>🎮 Générateur de Pseudos Réalistes</h1>
+    <input type="text" id="nameInput" placeholder="Entrez votre nom">
+    <select id="styleSelect">
+        <option value="gamer">Gamer</option>
+        <option value="cool">Cool</option>
+        <option value="mystique">Mystique</option>
+        <option value="original">Original</option>
+    </select>
+    <button onclick="generatePseudo()">Générer</button>
+    <div id="nickname" class="nickname">Ton pseudo apparaîtra ici 👇</div>
+</div>
+
+<script>
+function generatePseudo() {
+    const name = document.getElementById('nameInput').value.trim();
+    const style = document.getElementById('styleSelect').value;
+    const nicknameDiv = document.getElementById('nickname');
+
+    if (!name) {
+        nicknameDiv.textContent = "⚠️ Veuillez entrer un nom !";
+        return;
+    }
+
+    const parts = {
+        gamer: [
+            "_TryHard", "_Pro", "xX", "HD_", "_Legend", "FPS_", "NoScope", "xElite", "_Rekt",
+            "_OP", "Blade", "Phantom", "Ghost", "King", "Sniper", "_Vortex", "Xtreme", "Quantum"
+        ],
+        cool: [
+            "The", "Alpha", "Nova", "Vibe", "Zenith", "Echo", "Flare", "Storm", "Rune",
+            "Myst", "Flux", "Wave", "Hyper", "Nexus", "Blaze", "Cosmo", "Solar", "Titan"
+        ],
+        mystique: [
+            "Shadow", "Night", "Phantom", "Mystic", "Soul", "Spirit", "Rune", "Moon", "Eclipse",
+            "Obscura", "Nebula", "Wraith", "Oracle", "Dream", "Astral", "Whisper", "Veil"
+        ],
+        original: [
+            "Crafter", "Pixel", "Dreamer", "Sonic", "Neon", "Fusion", "Cloud", "Drift", "Echo",
+            "Pulse", "Glitch", "Skylark", "Voyager", "Mirage", "Shade", "Cipher", "Zen"
+        ]
+    };
+
+    const suffixes = [
+        "01","99","X","HD","007","777","360","420","1337","Zero","Max","XII","Prime"
+    ];
+
+    const endingList = parts[style];
+    const randomPart = endingList[Math.floor(Math.random() * endingList.length)];
+    const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+
+    // Pseudo
+    let pseudo = "";
+    if (style === "gamer") {
+        // Exemple: BenxXPro007
+        pseudo = `${name}${randomPart}${randomSuffix}`;
+    } else {
+        // Exemple: AlphaBenPrime
+        pseudo = `${randomPart}${name}${randomSuffix}`;
+    }
+
+    nicknameDiv.textContent = pseudo;
+
+    nicknameDiv.onclick = () => {
+        navigator.clipboard.writeText(pseudo).then(() => {
+            nicknameDiv.classList.add('copied');
+            setTimeout(() => nicknameDiv.classList.remove('copied'), 1500);
+        });
+    };
+}
+</script>
+</body>
+</html>
